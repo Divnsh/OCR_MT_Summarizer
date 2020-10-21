@@ -8,12 +8,12 @@ import flask
 #from OCR import get_my_doc
 from flask import send_from_directory
 import urllib
-import shutil
+#import shutil
 
-try:
-    shutil.rmtree('/app/.heroku/python/lib/python3.6/site-packages/cv2/qt',ignore_errors=True)
-except Exception as e:
-    pass
+# try:
+#     shutil.rmtree('/app/.heroku/python/lib/python3.6/site-packages/cv2/qt',ignore_errors=True)
+# except Exception as e:
+#     pass
 
 external_stylesheets=['/assets/amyoshinopen.css']
 app = dash.Dash(__name__, title = 'Image to Doc', external_stylesheets=external_stylesheets)
