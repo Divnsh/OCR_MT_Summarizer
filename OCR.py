@@ -159,6 +159,7 @@ def get_my_doc(lang, filepath):
 
 if __name__=='__main__':
     #os.chdir('/home/divyansh/PycharmProjects/Summarizer')
+    print(os.getcwd())
     #file_path = os.path.abspath('./test_images/hind2.jpg')
     file_path = sys.argv[1]
     now = str(datetime.datetime.now()).replace(' ', '')
