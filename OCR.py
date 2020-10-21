@@ -174,6 +174,7 @@ if __name__=='__main__':
         f.write(text)
     txt_to_doc()
     os.remove(fp1)
+    os.remove(file_path)
 
 
 # skew correction

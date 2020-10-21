@@ -34,7 +34,7 @@ app.layout = html.Div(children=[
                             }
                     , className = "twelve columns"),
 
-            html.Div(children='Easily convert your images to editable documents at the blink of an eye!',
+            html.Div(children='Easily convert your images to editable documents in the blink of an eye!',
                         style={
                                 'textAlign': 'center',
                                 'color': colors['text'],
