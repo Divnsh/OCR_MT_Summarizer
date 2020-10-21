@@ -2,13 +2,17 @@ import cv2
 import pytesseract
 import numpy as np
 import matplotlib.pyplot as plt
-import os
+import os,sys
 from PIL import Image
 import tempfile
 import scipy.stats as stats
 from transform import four_point_transform
 import imutils
 from skimage.filters import threshold_local
+from docx import Document
+import glob
+import re
+import datetime
 
 ### Pre-processing
 
@@ -50,10 +54,11 @@ def rescale_color_correct():
 
 # Fred's textcleaner
 def fred_clean():
-    os.system('bash textcleaner -g -e stretch -f 25 -o 10 -u -s 1 -T -p 10 '+rescaled+' ./processed_img/res.png')
-    imag=cv2.imread('./processed_img/res.png')
+    os.system('bash textcleaner -g -e stretch -f 25 -o 10 -u -s 1 -T -p 10 '+rescaled+' ./processed_img/res'+now+'.png')
+    imag=cv2.imread('./processed_img/res'+now+'.png')
     imag=cv2.cvtColor(imag, cv2.COLOR_BGR2GRAY) # grey-scale
     #imag = cv2.bitwise_not(imag)
+    os.remove('./processed_img/res'+now+'.png')
     return imag
 
 # Dilating and eroding
@@ -105,7 +110,7 @@ def align():
     #cv2.imshow("Original", imutils.resize(orig, height = 650))
     #cv2.imshow("Scanned", imutils.resize(warped, height = 650))
     #cv2.waitKey(0)
-    filepath = file_path.split('.')[0] + '_aligned.png'
+    filepath = file_path.split('.')[0] + '_aligned'+now+'.png'
     cv2.imwrite(filepath, warped)
     return filepath
 
@@ -115,18 +120,24 @@ def get_ocr():
     print(text)
     return text
 
-if __name__=='__main__':
-    os.chdir('/home/divyansh/PycharmProjects/Summarizer')
-    file_path = os.path.abspath('./test_images/abbott2.jpg')
-    #Adding custom options
-    custom_config = r'-l eng --oem 3 --psm 1'
-    # oem options:
-    # 0. Legacy engine only.
-    # 1. Neural nets LSTM engine only.
-    # 2. Legacy + LSTM engines.
-    # 3. Default, based on what is available.
-    # languages:
-    # Hin, mal, tam, ben, tel
+# Transform txt in docx
+def txt_to_doc():
+    doc = Document()
+    files = glob.glob("./xtracted_texts/*"+now+".txt")
+    with open(files[0], 'r', encoding='utf-8') as openfile:
+        line = openfile.read()
+        # Only retaining valid XML characters
+        line=re.sub(u'[^\u0020-\uD7FF\u0009\u000A\u000D\uE000-\uFFFD\U00010000-\U0010FFFF]+', '', line)
+        doc.add_paragraph(line)
+        doc.save(files[0][:-4] + ".docx")
+    #os.system(files[0][:-4] + ".docx")
+    print("Document saved at: " + files[0][:-4] + ".docx")
+    return files[0][:-4] + ".docx"
+
+
+def get_my_doc(lang, filepath):
+    custom_config = r'-l ' + lang + ' --oem 3 --psm 1'
+    now = str(datetime.datetime.now()).replace(' ', '')
     try:
         file_path=align()
         change_perspective=False
@@ -141,9 +152,52 @@ if __name__=='__main__':
         pts=np.float32([[0,0],[blur.shape[1],0],[blur.shape[1],blur.shape[0]],[0,blur.shape[0]]])
         blur = four_point_transform(blur, pts)
     text=get_ocr()
-    with open('./xtracted_texts/text.txt','w+') as f:
+    with open('./xtracted_texts/text'+now+'.txt','w+') as f:
         f.write(text)
+    result_path=txt_to_doc()
+    return result_path
 
+
+if __name__=='__main__':
+    os.chdir('/home/divyansh/PycharmProjects/Summarizer')
+    #file_path = os.path.abspath('./test_images/hind2.jpg')
+    file_path = sys.argv[1]
+    now = str(datetime.datetime.now()).replace(' ', '')
+    fileList = glob.glob('./xtracted_texts/*')
+    for f in fileList:
+       delta=(datetime.datetime.now() - datetime.datetime.strptime(f.split('/')[-1][4:29], "%Y-%m-%d%H:%M:%S.%f")).seconds
+       try:
+            if delta>120: # files older than 2 minutes are deleted
+                os.remove(f)
+       except:
+           pass
+    #Adding custom options
+    #custom_config = r'-l hin --oem 3 --psm 1'
+    custom_config = r'-l '+str(sys.argv[2])+' --oem 3 --psm 1'
+    # oem options:
+    # 0. Legacy engine only.
+    # 1. Neural nets LSTM engine only.
+    # 2. Legacy + LSTM engines.
+    # 3. Default, based on what is available.
+    # languages:
+    # Hin, mal, tam, ben, tel, eng
+    try:
+        file_path=align()
+        change_perspective=False
+    except Exception as e:
+        print("Outer edges not found."+str(e))
+        change_perspective=True
+    rescaled,mode_color=rescale_color_correct()
+    print(mode_color)
+    img=fred_clean()
+    blur,opening=noise_correction()
+    if change_perspective:
+        pts=np.float32([[0,0],[blur.shape[1],0],[blur.shape[1],blur.shape[0]],[0,blur.shape[0]]])
+        blur = four_point_transform(blur, pts)
+    text=get_ocr()
+    with open('./xtracted_texts/text'+now+'.txt','w+') as f:
+        f.write(text)
+    txt_to_doc()
 
 # skew correction
 # def deskew(image):
