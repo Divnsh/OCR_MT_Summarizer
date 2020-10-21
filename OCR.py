@@ -158,7 +158,7 @@ def get_my_doc(lang, filepath):
 
 
 if __name__=='__main__':
-    os.chdir('/home/divyansh/PycharmProjects/Summarizer')
+    #os.chdir('/home/divyansh/PycharmProjects/Summarizer')
     #file_path = os.path.abspath('./test_images/hind2.jpg')
     file_path = sys.argv[1]
     now = str(datetime.datetime.now()).replace(' ', '')
@@ -197,6 +197,8 @@ if __name__=='__main__':
     with open('./xtracted_texts/text'+now+'.txt','w+') as f:
         f.write(text)
     txt_to_doc()
+    os.remove(file_path)
+
 
 # skew correction
 # def deskew(image):
