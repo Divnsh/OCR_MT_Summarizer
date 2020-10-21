@@ -67,7 +67,7 @@ def noise_correction():
     #blur = cv2.GaussianBlur(opening,(5,5),0) # noise treatment
     blur = cv2.bilateralFilter(img, 9, 75, 75)
     #thresh = cv2.threshold(blur,0,255,cv2.THRESH_BINARY+cv2.THRESH_OTSU)[1]
-    cv2.imshow('blur',blur)
+    #cv2.imshow('blur',blur)
     return blur,opening
 
 def align():
