@@ -9,7 +9,10 @@ import flask
 from flask import send_from_directory
 import urllib
 
-os.system('rm -r /app/.heroku/python/lib/python3.6/site-packages/cv2/qt')
+try:
+    os.system('rm -r /app/.heroku/python/lib/python3.6/site-packages/cv2/qt')
+except:
+    pass
 external_stylesheets=['/assets/amyoshinopen.css']
 app = dash.Dash(__name__, title = 'Image to Doc', external_stylesheets=external_stylesheets)
 server = app.server
