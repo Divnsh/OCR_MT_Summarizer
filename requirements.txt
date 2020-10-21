@@ -159,7 +159,6 @@ pycodestyle==2.5.0
 #pycparser @ file:///tmp/build/80754af9/pycparser_1594388511720/work
 pydot==1.4.1
 Pygments==2.6.1
-PyICU==2.5
 # Editable install with no version control (pyldavis-dash==0.0.1)
 #-e /home/divyansh/Downloads/pyldavis_dash-master
 pyOpenSSL==19.0.0
