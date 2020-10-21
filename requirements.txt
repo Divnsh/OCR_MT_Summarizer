@@ -217,7 +217,6 @@ testpath==0.4.4
 textblob==0.15.3
 textsearch==0.0.17
 #thinc @ file:///tmp/build/80754af9/thinc_1594251955397/work
-timer==1.0.0
 #tokenizers==0.8.1rc1
 toml==0.10.1
 toolz==0.10.0
