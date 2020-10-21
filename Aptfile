@@ -5,4 +5,7 @@ tesseract-ocr-mal
 tesseract-ocr-tel
 tesseract-ocr-tam
 tesseract-ocr-ben
+ffmpeg
+libsm6
+libxext6
 

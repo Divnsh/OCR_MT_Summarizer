@@ -1,20 +1,11 @@
 absl-py==0.9.0
-#google-cloud-storage==1.30.0
-#PyICU-2.5-cp36-cp36m-linux_x86_64.whl
 Cython==0.29.21
-#Aion==0.1
-#anaconda-client==1.7.2
-#anaconda-navigator==1.9.7
 appdirs==1.4.4
-#asn1crypto @ file:///tmp/build/80754af9/asn1crypto_1596577642040/work
 astor==0.8.1
 astunparse==1.6.3
 astutils==0.0.4
 attrs==19.3.0
-#autopep8==1.5.2
 backcall==0.2.0
-#beautifulsoup4==4.9.1
-#bhtsne==0.1.9
 bleach==3.1.0
 blis==0.4.1
 boto==2.49.0
@@ -24,22 +15,17 @@ Bottleneck==1.3.2
 Brotli==1.0.7
 cachetools==4.1.0
 catalogue==1.0.0
-#category-encoders==2.2.2
 certifi==2020.6.20
-#cffi @ file:///tmp/build/80754af9/cffi_1596809862272/work
 cfgv==3.2.0
 chardet==3.0.4
 chart-studio==1.1.0
 click==7.1.1
-#cloudpickle==1.5.0
-#clyent==1.2.2
 contextvars==2.4
 contractions==0.0.25
 cryptography==2.7
 cssselect==1.1.0
 cycler==0.10.0
 cymem==2.0.3
-#Cython==0.29.20
 cytoolz==0.9.0.1
 dash==1.14.0
 dash-core-components==1.10.2
@@ -48,7 +34,6 @@ dash-dangerously-set-inner-html==0.0.2
 dash-html-components==1.0.3
 dash-renderer==1.6.0
 dash-table==4.9.0
-dask==2.22.0
 dataclasses==0.7
 dd==0.5.5
 decorator==4.4.2
@@ -57,11 +42,7 @@ dill==0.2.9
 distlib==0.3.1
 distributed==2.22.0
 docutils==0.15.2
-emoji==0.6.0
-#en-core-web-sm==2.3.1
 entrypoints==0.3
-#faiss==1.6.3
-#fastai==1.0.55
 fastprogress==0.1.21
 filelock==3.0.12
 fire==0.2.1
@@ -72,7 +53,6 @@ funcy==1.14
 future==0.18.2
 gast==0.3.3
 gensim==3.8.3
-#grpcio==1.28.1
 gunicorn==20.0.4
 h11==0.9.0
 h2==3.2.0
@@ -87,7 +67,6 @@ identify==1.4.25
 idna==2.8
 imageio==2.6.1
 immutables==0.14
-#importlib-metadata @ file:///tmp/build/80754af9/importlib-metadata_1593446433964/work
 importlib-resources==3.0.0
 iniconfig==1.0.1
 ipykernel==5.1.1
@@ -100,20 +79,11 @@ Jinja2==2.11.2
 jmespath==0.9.5
 joblib==0.14.1
 jsonschema==3.0.1
-#Keras==2.3.1
-#Keras-Applications==1.0.8
-#Keras-Preprocessing==1.1.2
 kiwisolver==1.2.0
-#langdetect==1.0.8
-#langid==1.1.6
 lxml==4.5.2
 Markdown==3.2.1
 MarkupSafe==1.1.1
-matplotlib==3.1.0
 mistune==0.8.4
-#mkl-fft==1.1.0
-#mkl-random==1.0.2
-#mkl-service==2.0.2
 more-itertools==8.4.0
 msgpack==1.0.0
 msgpack-numpy==0.4.3.2
@@ -132,12 +102,9 @@ packaging==19.0
 pandarallel==1.4.8
 pandas==0.25.0
 pandocfilters==1.4.2
-#parso @ file:///tmp/build/80754af9/parso_1596826841367/work
 patsy==0.5.1
 pexpect==4.8.0
 pickleshare==0.7.5
-#Pillow @ file:///tmp/build/80754af9/pillow_1594307298074/work
-#plac @ file:///tmp/build/80754af9/plac_1594261902054/work
 plotly==4.9.0
 pluggy==0.13.1
 ply==3.10
@@ -155,20 +122,15 @@ pyasn1==0.4.8
 pyasn1-modules==0.2.8
 pycld2==0.41
 pycodestyle==2.5.0
-#pycparser @ file:///tmp/build/80754af9/pycparser_1594388511720/work
 pydot==1.4.1
 Pygments==2.6.1
-# Editable install with no version control (pyldavis-dash==0.0.1)
-#-e /home/divyansh/Downloads/pyldavis_dash-master
 pyOpenSSL==19.0.0
 pyparsing==2.4.7
 pyquery==1.4.1
 pyrsistent==0.14.11
 PySocks==1.7.1
-#pyspark==2.4.3
 pytest==6.0.1
 python-dateutil==2.8.0
-#pytorch-pretrained-bert==0.6.2
 pytz==2020.1
 PyWavelets==1.1.1
 PyYAML==5.3.1
@@ -184,11 +146,7 @@ ruamel.yaml==0.16.10
 ruamel.yaml.clib==0.2.0
 s3transfer==0.3.3
 sacremoses==0.0.41
-#scikit-image==0.16.2
-#scikit-learn==0.22.1
-#scikit-surprise==1.1.0
 scipy==1.4.1
-#seaborn==0.10.0
 Send2Trash==1.5.0
 sentencepiece==0.1.85
 six==1.15.0
@@ -197,8 +155,6 @@ sniffio==1.1.0
 sortedcontainers==2.2.2
 soupsieve==2.0.1
 srsly==1.0.2
-#statsmodels==0.11.1
-#surprise==0.1
 symspellpy==6.5.2
 tblib==1.7.0
 #tensorboard==2.3.0
@@ -211,18 +167,11 @@ tblib==1.7.0
 termcolor==1.1.0
 terminado==0.8.3
 testpath==0.4.4
-textblob==0.15.3
 textsearch==0.0.17
-#thinc @ file:///tmp/build/80754af9/thinc_1594251955397/work
-#tokenizers==0.8.1rc1
 toml==0.10.1
 toolz==0.10.0
-#torch==1.1.0
-#torchvision==0.3.0
 tornado==6.0.4
 tox==3.19.0
-#tqdm @ file:///tmp/build/80754af9/tqdm_1596810128862/work
-#tqdm==4.48.2
 traitlets==4.3.2
 #transformers==3.0.2
 translate==3.5.0

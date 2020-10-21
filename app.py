@@ -2,15 +2,10 @@ import dash
 import dash_core_components as dcc
 import dash_html_components as html
 import os, subprocess,re
-import pandas as pd
-import plotly.graph_objects as go
 from dash.dependencies import Input, Output, State
-import pickle
 import base64
-import io
 import flask
-import glob
-from OCR import get_my_doc
+#from OCR import get_my_doc
 from flask import send_from_directory
 import urllib
 
