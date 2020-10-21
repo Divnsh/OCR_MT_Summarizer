@@ -116,7 +116,7 @@ def align():
 # Get final text
 def get_ocr():
     text=pytesseract.image_to_string(blur, config=custom_config)
-    print(text)
+    #print(text)
     return text
 
 # Transform txt in docx
@@ -131,37 +131,12 @@ def txt_to_doc():
         doc.save(files[0][:-4] + ".docx")
     #os.system(files[0][:-4] + ".docx")
     print("Document saved at: " + files[0][:-4] + ".docx")
-    return files[0][:-4] + ".docx"
-
-
-def get_my_doc(lang, filepath):
-    custom_config = r'-l ' + lang + ' --oem 3 --psm 1'
-    now = str(datetime.datetime.now()).replace(' ', '')
-    try:
-        file_path=align()
-        change_perspective=False
-    except Exception as e:
-        print("Outer edges not found."+str(e))
-        change_perspective=True
-    rescaled,mode_color=rescale_color_correct()
-    print(mode_color)
-    img=fred_clean()
-    blur,opening=noise_correction()
-    if change_perspective:
-        pts=np.float32([[0,0],[blur.shape[1],0],[blur.shape[1],blur.shape[0]],[0,blur.shape[0]]])
-        blur = four_point_transform(blur, pts)
-    text=get_ocr()
-    with open('./xtracted_texts/text'+now+'.txt','w+') as f:
-        f.write(text)
-    result_path=txt_to_doc()
-    return result_path
-
 
 if __name__=='__main__':
     #os.chdir('/home/divyansh/PycharmProjects/Summarizer')
-    print(os.getcwd())
     #file_path = os.path.abspath('./test_images/hind2.jpg')
     file_path = sys.argv[1]
+    fp1=file_path
     now = str(datetime.datetime.now()).replace(' ', '')
     fileList = glob.glob('./xtracted_texts/*')
     for f in fileList:
@@ -198,7 +173,7 @@ if __name__=='__main__':
     with open('./xtracted_texts/text'+now+'.txt','w+') as f:
         f.write(text)
     txt_to_doc()
-    os.remove(file_path)
+    os.remove(fp1)
 
 
 # skew correction
