@@ -140,12 +140,9 @@ if __name__=='__main__':
     now = str(datetime.datetime.now()).replace(' ', '')
     fileList = glob.glob('./xtracted_texts/*')
     for f in fileList:
-       delta=(datetime.datetime.now() - datetime.datetime.strptime(f.split('/')[-1][4:29], "%Y-%m-%d%H:%M:%S.%f")).seconds
-       try:
-            if delta>120: # files older than 2 minutes are deleted
-                os.remove(f)
-       except:
-           pass
+        delta=(datetime.datetime.now() - datetime.datetime.strptime(f.split('/')[-1][4:29], "%Y-%m-%d%H:%M:%S.%f")).seconds
+        if delta>120: # files older than 2 minutes are deleted
+            os.remove(f)
     #Adding custom options
     #custom_config = r'-l hin --oem 3 --psm 1'
     custom_config = r'-l '+str(sys.argv[2])+' --oem 3 --psm 1'
@@ -173,8 +170,11 @@ if __name__=='__main__':
     with open('./xtracted_texts/text'+now+'.txt','w+') as f:
         f.write(text)
     txt_to_doc()
-    os.remove(fp1)
-    os.remove(file_path)
+    try:
+        os.remove(fp1)
+        os.remove(file_path)
+    except:
+        pass
 
 
 # skew correction
