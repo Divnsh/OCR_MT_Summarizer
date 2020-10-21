@@ -1,14 +1,13 @@
 import cv2
 import pytesseract
 import numpy as np
-import matplotlib.pyplot as plt
 import os,sys
 from PIL import Image
 import tempfile
 import scipy.stats as stats
 from transform import four_point_transform
 import imutils
-from skimage.filters import threshold_local
+#from skimage.filters import threshold_local
 from docx import Document
 import glob
 import re
