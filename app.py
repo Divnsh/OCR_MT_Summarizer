@@ -188,4 +188,4 @@ def delayedlinks(n_clicks):
         return {'display':'inline-block','color':colors["Dark Cornflower Blue"]}
 
 if __name__ == '__main__':
-    app.run_server(debug=True)
+    app.run_server(debug=False)
