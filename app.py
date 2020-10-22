@@ -93,11 +93,12 @@ app.layout = html.Div(children=[
             html.Button("If downloads links don't appear after 1 minute, click here", id='failsafe', n_clicks=0,
                         style={'height':"35px", 'width':"600px", 'color':colors["Dark Cornflower Blue"]}),
             html.Ul(id="output_results",style={'color':colors["Dark Cornflower Blue"]}),
+            html.Ul(id='intermediate-div',style={'display':'none'}),
             ],style={
               'margin-left':75, 'margin-right':75,
               'textAlign':'center',
               }
-        )
+        ),
     ])
 
 
@@ -121,14 +122,6 @@ def show_contents(contents, filename):
         # })
     ],style={'display': 'inline-block'})
 
-@app.server.route("/download")
-def download_img():
-    value = flask.request.args.get('value')
-    filename=urllib.parse.unquote(value).strip()
-    #print(filename)
-    #print(os.path.exists(os.path.join(server.config['UPLOAD_FOLDER'], filename)))
-    return send_from_directory(server.config['UPLOAD_FOLDER'], filename, as_attachment=True)
-
 @app.callback(
     Output('preview_images', 'children'),
     [Input('upload_image','filename')],
@@ -145,8 +138,17 @@ def preview_img(filename,contents):
                 return 'There was an error processing this file. Please provide a proper formatted file.'
     return children
 
+@app.server.route("/download")
+def download_img():
+    value = flask.request.args.get('value')
+    filename=urllib.parse.unquote(value).strip()
+    #print(filename)
+    #print(os.path.exists(os.path.join(server.config['UPLOAD_FOLDER'], filename)))
+    return send_from_directory(server.config['UPLOAD_FOLDER'], filename, as_attachment=True)
+
 @app.callback(
-    Output('output_results', 'children'),
+    [Output('output_results', 'children'),
+     Output('intermediate-div','children')],
     [Input('convert_button','n_clicks')],
     [State('upload_image','filename'),
     State('upload_image','contents'),
@@ -155,7 +157,6 @@ def preview_img(filename,contents):
 def get_output(n_clicks,filename,contents,value):
     if n_clicks>0:
         if contents is not None and filename is not None:
-            global refslist
             refslist = []
             lang='+'.join(value)
             for fname, data in zip(filename, contents):
@@ -177,13 +178,14 @@ def get_output(n_clicks,filename,contents,value):
                 refslist.append(html.Li(html.A(fname.split('.')[0], href=location)))
         return refslist
 
+
 @app.callback(
-    Output('output_results', 'children'),
-    [Input('failsafe','n_clicks')]
+    Output('intermediate-div', 'style'),
+    [Input('failsafe','n_clicks')],
 )
 def delayedlinks(n_clicks):
     if n_clicks>0:
-        return refslist
+        return {'display':'inline-block','color':colors["Dark Cornflower Blue"]}
 
 if __name__ == '__main__':
-    app.run_server(debug=False)
+    app.run_server(debug=True)
