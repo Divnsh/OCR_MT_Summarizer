@@ -90,6 +90,8 @@ app.layout = html.Div(children=[
             html.Br(),
             html.Br(),
             html.P('Download your documents: '),
+            html.Button("If downloads links don't appear after 1 minute, click here", id='failsafe', n_clicks=0,
+                        style={'height':"35px", 'width':"600px", 'color':colors["Dark Cornflower Blue"]}),
             html.Ul(id="output_results",style={'color':colors["Dark Cornflower Blue"]}),
             ],style={
               'margin-left':75, 'margin-right':75,
@@ -143,7 +145,6 @@ def preview_img(filename,contents):
                 return 'There was an error processing this file. Please provide a proper formatted file.'
     return children
 
-
 @app.callback(
     Output('output_results', 'children'),
     [Input('convert_button','n_clicks')],
@@ -154,6 +155,7 @@ def preview_img(filename,contents):
 def get_output(n_clicks,filename,contents,value):
     if n_clicks>0:
         if contents is not None and filename is not None:
+            global refslist
             refslist = []
             lang='+'.join(value)
             for fname, data in zip(filename, contents):
@@ -175,6 +177,13 @@ def get_output(n_clicks,filename,contents,value):
                 refslist.append(html.Li(html.A(fname.split('.')[0], href=location)))
         return refslist
 
+@app.callback(
+    Output('output_results', 'children'),
+    [Input('failsafe','n_clicks')]
+)
+def delayedlinks(n_clicks):
+    if n_clicks>0:
+        return refslist
 
 if __name__ == '__main__':
     app.run_server(debug=False)
