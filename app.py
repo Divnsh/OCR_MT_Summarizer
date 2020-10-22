@@ -12,7 +12,6 @@ import urllib
 import dash_gif_component as Gif
 
 
-
 external_stylesheets=['/assets/amyoshinopen.css']
 app = dash.Dash(__name__, title = 'Image to Doc', external_stylesheets=external_stylesheets)
 server = app.server

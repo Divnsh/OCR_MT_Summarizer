@@ -12,8 +12,21 @@ from docx import Document
 import glob
 import re
 import datetime
+import io,base64,imageio
 
 ### Pre-processing
+
+
+def cv2_readable():
+    with open(file_path, "rb") as fid:
+        data = fid.read()
+    b64_bytes = base64.b64encode(data)
+    b64_string = b64_bytes.decode()
+    # reconstruct image as an numpy array
+    img = imageio.imread(io.BytesIO(base64.b64decode(b64_string)))
+    cv2_img = cv2.cvtColor(img, cv2.COLOR_RGB2BGR)
+    return cv2_img
+
 
 # Rescale
 def save_temp(im):
@@ -22,15 +35,18 @@ def save_temp(im):
     im.save(temp_filename, dpi=(300, 300))
     return temp_filename
 
-def set_image_dpi(filepath):
-    im = Image.open(filepath)
+def set_image_dpi():
+    cvim=cv2_readable()
+    cvimmat = cv2.cvtColor(cvim, cv2.COLOR_BGR2RGB)
+    im = Image.fromarray(cvimmat)
+    #im = Image.open(filepath)
     length_x, width_y = im.size
     if length_x<800:
         # Create an SR object
         sr = cv2.dnn_superres.DnnSuperResImpl_create()
         sr.readModel('./models/FSRCNN_x2.pb')
         sr.setModel("fsrcnn", 2)
-        im_resized = Image.fromarray(sr.upsample(cv2.imread(filepath)).astype('uint8'),'RGB')
+        im_resized = Image.fromarray(sr.upsample(cvim).astype('uint8'),'RGB')
     else:
         factor = min(1, float(1024.0 / length_x))
         size = int(factor * length_x), int(factor * width_y)
@@ -40,7 +56,7 @@ def set_image_dpi(filepath):
 
 # Grayscale and Invert colors if background is dark
 def rescale_color_correct():
-    rescaled=set_image_dpi(file_path)
+    rescaled=set_image_dpi()
     img=cv2.imread(rescaled)
     img=cv2.cvtColor(img, cv2.COLOR_BGR2GRAY) # grey-scale
     mode_color=stats.mode(img,axis=None)[0][0] # Dominant background color
@@ -71,7 +87,8 @@ def noise_correction():
     return blur,opening
 
 def align():
-    image = cv2.imread(file_path)
+    image = cv2_readable()
+    #image = cv2.imread(file_path)
     ratio = image.shape[0] / 500.0
     orig = image.copy()
     image = imutils.resize(image, height=500)
@@ -116,7 +133,6 @@ def align():
 # Get final text
 def get_ocr():
     text=pytesseract.image_to_string(blur, config=custom_config)
-    #print(text)
     return text
 
 # Transform txt in docx
@@ -163,6 +179,7 @@ if __name__=='__main__':
     print(mode_color)
     img=fred_clean()
     blur,opening=noise_correction()
+    #cv2.imwrite('blur.jpg', blur)
     if change_perspective:
         pts=np.float32([[0,0],[blur.shape[1],0],[blur.shape[1],blur.shape[0]],[0,blur.shape[0]]])
         blur = four_point_transform(blur, pts)

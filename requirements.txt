@@ -37,3 +37,4 @@ opencv-python==4.4.0.44
 imutils==0.5.3
 opencv-contrib-python==4.4.0.44
 dash-gif-component==1.1.0
+imageio==2.9.0
