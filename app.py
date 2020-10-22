@@ -175,7 +175,8 @@ def get_output(n_clicks,filename,contents,value):
                     #print(outfilename)
                 except Exception as e:
                     #print(e)
-                    return 'There was an error processing this file. Please provide a proper formatted file.'
+                    return ['There was an error processing this file. Please provide a proper formatted file. The name of file must not contain spaces and paranthesis.',
+                            'There was an error processing this file. Please provide a proper formatted file. The name of file must not contain spaces and paranthesis.']
                 location = "/download?value={}".format(urllib.parse.quote(outfilename))
                 refslist.append(html.Li(html.A(fname.split('.')[0], href=location)))
         return refslist,refslist
