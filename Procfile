@@ -1,1 +1,1 @@
-web: gunicorn -w 2 app:server --timeout 20
+web: gunicorn -w 2 app:server --timeout 120

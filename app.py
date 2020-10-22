@@ -9,11 +9,9 @@ import flask
 from flask import send_from_directory
 import urllib
 #import shutil
+import dash_gif_component as Gif
 
-# try:
-#     shutil.rmtree('/app/.heroku/python/lib/python3.6/site-packages/cv2/qt',ignore_errors=True)
-# except Exception as e:
-#     pass
+
 
 external_stylesheets=['/assets/amyoshinopen.css']
 app = dash.Dash(__name__, title = 'Image to Doc', external_stylesheets=external_stylesheets)
@@ -46,10 +44,17 @@ app.layout = html.Div(children=[
                                 'fontSize': 18,
                             }
                     , className = 'twelve columns'),
-            ],className = 'row'),
+            html.Div(id='mygif',style={'width':'640px','height':'360px','display': 'inline-block'},
+                     children=[
+                         Gif.GifPlayer(
+                             gif='assets/mygif.gif',
+                             still='assets/still.jpg',
+                         )]
+                     ),
+            ],className = 'row',style={'textAlign': 'center'}),
         html.Br(),
         html.Br(),
-        html.Div([
+        html.Div(children=[
             html.Div(['Select the language(s) in the image: ']),
             dcc.Dropdown(id='language-dropdown', options=
                 [{'label':'English', 'value':'eng'},
@@ -59,11 +64,9 @@ app.layout = html.Div(children=[
                 {'label':'Bengali', 'value':'ben'},
                 {'label':'Telugu', 'value':'tel'},
                 ], value=['eng'], multi=True),
-            html.Div(id='dropdown-output-container')
-        ]),
-        html.Br(),
-        html.Br(),
-        html.Div(children=[
+            html.Div(id='dropdown-output-container'),
+            html.Br(),
+            html.Br(),
             dcc.Upload(
                     id='upload_image',
                     children=html.Div([
@@ -120,8 +123,8 @@ def show_contents(contents, filename):
 def download_img():
     value = flask.request.args.get('value')
     filename=urllib.parse.unquote(value).strip()
-    print(filename)
-    print(os.path.exists(os.path.join(server.config['UPLOAD_FOLDER'], filename)))
+    #print(filename)
+    #print(os.path.exists(os.path.join(server.config['UPLOAD_FOLDER'], filename)))
     return send_from_directory(server.config['UPLOAD_FOLDER'], filename, as_attachment=True)
 
 @app.callback(
@@ -136,7 +139,7 @@ def preview_img(filename,contents):
             try:
                 children.append(show_contents(data, fname))
             except Exception as e:
-                print(e)
+                #print(e)
                 return 'There was an error processing this file. Please provide a proper formatted file.'
     return children
 
@@ -150,10 +153,8 @@ def preview_img(filename,contents):
 )
 def get_output(n_clicks,filename,contents,value):
     if n_clicks>0:
-        print("n_clicks: ",n_clicks)
         if contents is not None and filename is not None:
             refslist = []
-            i=0
             lang='+'.join(value)
             for fname, data in zip(filename, contents):
                 try:
@@ -166,13 +167,12 @@ def get_output(n_clicks,filename,contents,value):
                     result_path = [re.sub(r'[\\n\n]', '', x) for x in str(result).split() if '.docx' in x][0]
                     result_path=re.sub(r'[^A-Za-z0-9:\-./]','',result_path)
                     outfilename=result_path.split('/')[-1]
-                    print(outfilename)
+                    #print(outfilename)
                 except Exception as e:
-                    print(e)
+                    #print(e)
                     return 'There was an error processing this file. Please provide a proper formatted file.'
                 location = "/download?value={}".format(urllib.parse.quote(outfilename))
                 refslist.append(html.Li(html.A(fname.split('.')[0], href=location)))
-                i+=1
         return refslist
 
 
