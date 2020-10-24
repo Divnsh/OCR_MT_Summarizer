@@ -137,7 +137,7 @@ def preview_img(filename,contents):
                 children.append(show_contents(data, fname))
             except Exception as e:
                 #print(e)
-                return 'There was an error processing this file. Please provide a proper formatted file.'
+                return ['There was an error processing this file. Please provide a proper formatted file.']
         return children
 
 @app.server.route("/download")
